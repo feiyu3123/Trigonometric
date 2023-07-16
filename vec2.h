@@ -61,6 +61,17 @@
 #define M_SQRT1_2 (0.70710678118654752440)
 #endif
 
+inline double deg2rad(double angle)
+{
+    double r = angle / (180.0 / M_PI);
+    return r;
+}
+
+inline double rad2deg(double radian)
+{
+    double d = radian * (180.0 / M_PI);
+    return d;
+}
 
 struct vec2
 {
@@ -158,19 +169,66 @@ inline vec2 unit_vec2(const vec2& v1)
 
 using point2=vec2;
 
-//================================================================================================Trigonometric functions================================================================================================
-
-inline double deg2rad(double angle)
+/**
+ * @brief The matrix2x2 2x2 矩阵
+ */
+struct matrix2x2
 {
-    double r = angle / (180.0 / M_PI);
-    return r;
-}
+    double operator ()(int row,int col) const
+    {
+        return e[row][col];
+    }
 
-inline double rad2deg(double radian)
+    double& operator ()(int row,int col)
+    {
+        return e[row][col];
+    }
+
+    double e[2][2];
+};
+
+inline double dot(const matrix2x2& m,const vec2& v,int r)
 {
-    double d = radian * (180.0 / M_PI);
+    double d=m(r,0)*v[0]+m(r,1)*v[1];
     return d;
 }
+
+inline vec2 operator*(const matrix2x2& lhs,const vec2& rhs)
+{
+    double x=dot(lhs,rhs,0);
+    double y=dot(lhs,rhs,1);
+    vec2 v(x,y);
+    return v;
+}
+
+
+/**
+ * @brief rotate_matrix 创建旋转矩阵
+ * @param rotate_angle 旋转角
+ * @return 旋转矩阵
+ */
+inline matrix2x2 rotate_matrix(double rotate_angle)
+{//使用数学坐标系
+    double rotate_rad=deg2rad(rotate_angle);
+    matrix2x2 m;
+    m(0,0)=cos(rotate_rad);
+    m(0,1)=-sin(rotate_rad);
+    //
+    m(1,0)=sin(rotate_rad);
+    m(1,1)=cos(rotate_rad);
+    return m;
+}
+
+//================================================================================================Trigonometric functions================================================================================================
+
+
+/**
+ * @brief calc_triangle_area 使用海伦公式计算三角形面积
+ * @param a_side_length a边长
+ * @param b_side_length b边长
+ * @param c_side_length c边长
+ * @return 三角形面积
+ */
 
 inline double calc_triangle_area(double a_side_length, double b_side_length, double c_side_length)
 {//参考海伦公式,求三角形面积

@@ -140,6 +140,17 @@ void app_sample()
         bool debug = true;
     }
 
+    {//使用旋转矩阵处理向量旋转
+        matrix2x2 m=rotate_matrix(90);
+        vec2 a(1,1);
+        vec2 a1=m*a;
+
+        double angle=dot_angle(a1,a);
+
+
+        bool debug = true;
+
+    }
 
 }
 
