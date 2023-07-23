@@ -76,54 +76,23 @@ inline double rad2deg(double radian)
 struct vec2
 {
 public:
-    vec2() {}
-    vec2(double e0, double e1)
-    {
-        e[0] = e0;
-        e[1] = e1;
-    }
+    vec2();
+    vec2(double e0, double e1);
 
-    double length_squared() const
-    {
-        double s = e[0] * e[0] + e[1] * e[1];
-        return s;
-    }
+    double length_squared() const;
 
-    double length() const
-    {
-        double s = length_squared();
-        double l = sqrt(s);
-        return l;
-    }
+    double length() const;
 
-    double operator[](int i) const { return e[i]; }
-    double& operator[](int i) { return e[i]; }
+    vec2 dir() const;
 
-    vec2& operator +=(const vec2& other)
-    {
-        e[0] += other.e[0];
-        e[1] += other.e[1];
-        return *this;
-    }
+    double operator[](int i) const;
+    double& operator[](int i);
 
-    vec2& operator-=(const vec2& other)
-    {
-        e[0] -= other.e[0];
-        e[1] -= other.e[1];
-        return *this;
-    }
-
-    std::string toString()
-    {
-        std::stringstream ss;
-        ss << "(" << e[0];
-        ss << "," << e[1];
-        ss << ")";
-
-        std::string s = ss.str();
-        return s;
-    }
-
+    vec2& operator+=(const vec2& rhs);
+    vec2& operator-=(const vec2& rhs);
+    vec2& operator*=(double s);
+    vec2& operator/=(double s);
+    std::string toString();
     double e[2];
 
 

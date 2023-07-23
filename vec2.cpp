@@ -1,5 +1,85 @@
 #include "vec2.h"
 
+vec2::vec2()
+{
+
+}
+
+vec2::vec2(double e0, double e1)
+{
+    e[0] = e0;
+    e[1] = e1;
+}
+
+double vec2::length_squared() const
+{
+    double s = e[0] * e[0] + e[1] * e[1];
+    return s;
+}
+
+double vec2::length() const
+{
+    double s = length_squared();
+    double l = sqrt(s);
+    return l;
+}
+
+vec2 vec2::dir()const
+{
+    vec2 v=(*this);
+    v/=length();
+    return v;
+}
+
+double vec2::operator[](int i) const
+{
+    return e[i];
+}
+
+double& vec2::operator[](int i)
+{
+    return e[i];
+}
+
+vec2& vec2::operator+=(const vec2& rhs)
+{
+    e[0] += rhs.e[0];
+    e[1] += rhs.e[1];
+    return *this;
+}
+
+vec2& vec2::operator-=(const vec2& rhs)
+{
+    e[0] -= rhs.e[0];
+    e[1] -= rhs.e[1];
+    return *this;
+}
+
+vec2& vec2::operator*=(double s)
+{
+    e[0] *=s;
+    e[1] *=s;
+    return *this;
+}
+
+vec2& vec2::operator/=(double s)
+{
+    e[0] /= s;
+    e[1] /= s;
+    return *this;
+}
+
+std::string vec2::toString()
+{
+    std::stringstream ss;
+    ss << "(" << e[0];
+    ss << "," << e[1];
+    ss << ")";
+
+    std::string s = ss.str();
+    return s;
+}
+
 
 void app_sample()
 {
@@ -152,6 +232,21 @@ void app_sample()
 
     }
 
+
+    {//给任意一个点和任意不相交向量，计算垂线交点
+        //任意一点
+        point2 A(10,10);
+        //任意不相交向量中的两点
+        point2 B(1,0);
+        point2 C(2,1);
+        //
+        vec2 bc=C-B;
+        vec2 ba=A-B;
+        double shadow= dot(ba,bc.dir());
+
+
+        bool debug = true;
+    }
 }
 
 
